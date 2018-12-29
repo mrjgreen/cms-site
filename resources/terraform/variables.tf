@@ -1,14 +1,24 @@
 # The region to deploy the resources
-region = "eu-west-1"
+variable "region" {
+    default = "eu-west-1"
+}
 
 # This needs to be different for every deployment within a region
-application = "cms-site"
+variable "application" {
+    default = "cms-site"
+}
 
 # A link to this repo - will be added as a tag on all resources
-provisionersrc = "github.com/mrjgreen/cms-site"
+variable "provisionersrc" {
+    default = "github.com/mrjgreen/cms-site"
+}
 
 # The owner - will be added as a tag on all resources
-owner = "Joe Green"
+variable "owner" {
+    default = "Joe Green"
+}
 
 # Set up a key pair in AWS and add the name here
-domain = "cms-site.uk"
+variable "domain" {
+    default = "joeg.uk"
+}

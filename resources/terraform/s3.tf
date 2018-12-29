@@ -1,4 +1,4 @@
-resource "aws_s3_bucket" "blog" {
+resource "aws_s3_bucket" "site" {
   bucket = "${var.domain}"
   acl    = "public-read"   # Needs to be public for a website
 
