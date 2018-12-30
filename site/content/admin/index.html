@@ -6,6 +6,11 @@
   <title>Content Manager</title>
 
   <script src="https://identity-js.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  {{ $stylesheet := .Site.Data.webpack.main }}
+  {{ with $stylesheet.css }}
+  <link href="{{ relURL . }}" rel="stylesheet" />
+  {{ end }}
 </head>
 <body>
 
