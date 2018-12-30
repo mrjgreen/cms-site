@@ -3,14 +3,11 @@ version: 0.2
 phases:
   install:
     commands:
-      - npm install
+      - yarn install
   build:
     commands:
-      - npm run build
+      - yarn run build
 artifacts:
   files:
     - "**/*"
   base-directory: dist
-cache:
-  paths:
-    - node_modules/**/*

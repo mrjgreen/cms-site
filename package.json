@@ -66,9 +66,5 @@
   },
   "resolutions": {
     "natives": "1.1.6"
-  },
-  "dependencies": {
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-es2016": "^6.24.1"
   }
 }
