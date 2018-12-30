@@ -3,14 +3,13 @@ version: 0.2
 phases:
   install:
     commands:
-      - yarn install
+      - npm install
   build:
     commands:
-      - yarn run build
-artifacts:
-  files:
-    - "**/*"
-  base-directory: dist
+      - npm run build
+  post_build:
+    commands:
+      - aws s3 sync --delete dist "s3://cms-site.uk"
 cache:
   paths:
     - node_modules/**/*
