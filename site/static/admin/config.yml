@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: mrjgreen/cms-site # Path to your GitHub repository
+  name: git-gateway
 
 media_folder: "site/static/img" # Folder where user uploaded files should go
 public_folder: "img"
