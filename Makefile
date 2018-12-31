@@ -1,4 +1,4 @@
-HUGO := hugo -d dist -s site -v
+HUGO := hugo -d ../dist -s site -v
 
 start: clean
 	$(HUGO)w
