@@ -10,4 +10,4 @@ build: clean
 	$(HUGO)
 
 clean:
-	rm -fr dist
+	rm -fr dist && mkdir dist
