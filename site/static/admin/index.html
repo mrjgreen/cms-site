@@ -6,18 +6,8 @@
   <title>Content Manager</title>
 
   <script src="https://identity-js.netlify.com/v1/netlify-identity-widget.js"></script>
-
-  {{ $stylesheet := .Site.Data.webpack.main }}
-  {{ with $stylesheet.css }}
-  <link href="{{ relURL . }}" rel="stylesheet" />
-  {{ end }}
+  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 </head>
 <body>
-
-  {{ $script := .Site.Data.webpack.cms }}
-  {{ with $script.js }}
-  <script src="{{ relURL . }}"></script>
-  {{ end }}
-
 </body>
 </html>
