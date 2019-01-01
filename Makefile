@@ -1,10 +1,7 @@
 HUGO := hugo -d ../dist -s site -v
 
 start: clean
-	$(HUGO)w
-
-preview: clean
-	$(HUGO)w -D -F
+	$(HUGO) server
 
 build: clean
 	$(HUGO)
