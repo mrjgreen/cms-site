@@ -1,9 +1,34 @@
-baseurl = "/"
-languageCode = "en-us"
-languageLang = "en"
-title = "My new Victor-Hugo site"
+languageCode = "en-gb"
+title = "Joe Green"
+baseurl = "http://joeg.uk/"
 
-# RSS, categories and tags disabled for an easy start
-# See configuration options for more details: 
-# https://gohugo.io/getting-started/configuration/#toml-configuration
-disableKinds = ["RSS", "taxonomy", "taxonomyTerm"]
+enableRobotsTXT = true
+googleAnalytics = "UA-89413599-1"
+
+PygmentsCodeFences = true
+PygmentsUseClasses = true
+
+[permalinks]
+  post = "/:year/:month/:title/"
+
+[params]
+    disqusShortname = "joeg-uk"
+    description = "Software Engineering, DevOps & Architecture"
+    copyright = " "
+
+[taxonomies]
+    tag = "tags"
+    series = "series"
+
+[[menu.main]]
+    name = "GitHub"
+    pre = "<i class='fa fa-github'></i>"
+    target = "_blank"
+    identifier = "github"
+    url = "https://github.com/mrjgreen"
+    weight = 100
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+  filename = "sitemap.xml"

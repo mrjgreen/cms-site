@@ -1,6 +1,33 @@
 {{ define "main" }}
 
-{{ partial "jumbotron" (dict "imageUrl" "/img/7.jpg" "title" "This is where the heading goes" "subtitle" "This is where the subtitle goes") }}
-{{ .Content }}
+<div class="content container">
+	<div class="post">
+		<h1>{{ .Title }}</h1>
+		<span class="post-date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span>
+		{{if .Params.series}}
+			<span>| Series: <a href="/series/{{ .Params.series | urlize }}">{{ .Params.series }}</a></span>
+		{{end}}
 
+		<ul class="tags">
+			{{ range .Params.tags }}
+			<li> <a href="/tags/{{ . | urlize }}">{{ . }}</a> </li>
+			{{ end }}
+		</ul>
+
+		{{ .Content }}
+	</div>
+
+	<div>
+		<span class="next-previous">
+		{{if .PrevInSection}}<a href="{{.PrevInSection.Permalink}}">&laquo; {{.PrevInSection.Title}}</a>{{else}}&nbsp;{{end}}
+		</span>
+		<span class="next-previous">
+		{{if .NextInSection}}<a href="{{.NextInSection.Permalink}}">{{.NextInSection.Title}} &raquo;</a>{{else}}&nbsp;{{end}}
+		</span>
+	</div>
+
+	{{ if .Site.Params.disqusShortname }}
+		{{ partial "disqus.html" . }}
+	{{ end }}
+</div>
 {{ end }}

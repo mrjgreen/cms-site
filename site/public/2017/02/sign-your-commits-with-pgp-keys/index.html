@@ -1,0 +1,274 @@
+	<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.18.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+  <title>Sign Your Commits with PGP Keys &middot; Joe Green</title>
+  
+
+  
+  <link rel="stylesheet" href="/css/all.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Joe Green" />
+
+</head>
+
+	<body class=" ">
+		<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="http://joeg.uk/"><h1>Joe Green</h1></a>
+
+      <p class="lead">
+       Software Engineering, DevOps &amp; Architecture 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="/about/"> About </a></li>
+      
+        <li><a href="https://github.com/mrjgreen"> GitHub </a></li>
+      
+    </ul>
+
+    <p> </p>
+  </div>
+</div>
+
+
+		<div class="content container">
+			<div class="post">
+			 	<h1>Sign Your Commits with PGP Keys</h1>
+			  	<span class="post-date">Sat, Feb 4, 2017</span>
+				
+
+				<ul class="tags">
+					
+				</ul>
+
+				<p>Did you know that anyone with access to a Git repository can commit code as you, just by changing their git user details?</p>
+
+<p>Imagine if a disgruntled colleague introduced a critical security vulnerability, or added malicious code under your name&hellip;
+how would you be able to prove it wasn&rsquo;t you?
+</p>
+
+<h3 id="pgp-keys">PGP Keys</h3>
+
+<p>&ldquo;Pretty Good Privacy&rdquo; (PGP) and the compatible GPL licensed &ldquo;GNU Privacy Guard&rdquo; (GPG) are encryption programs
+offering:</p>
+
+<ul>
+<li>Cryptographic privacy via encryption</li>
+<li>Authentication via signatures (we will be looking at this one today!)</li>
+</ul>
+
+<p>We can use PGP to sign all kinds of data, such as e-mails, documents and pretty much any kind of &ldquo;digital message&rdquo;
+you can think of, which under the right circumstances verifies that this data was in fact created by you and has
+not been altered since you signed it.</p>
+
+<p>So how does this help us?</p>
+
+<h3 id="signed-commits">Signed Commits</h3>
+
+<p>A git commit is nothing more than a &ldquo;digital message&rdquo; and as such it makes sense that we should be able to use our
+PGP key to verify that the commit really does belong to us.</p>
+
+<p>You can even upload the &ldquo;public&rdquo; half of your PGP key to GitHub so that each time you push a signed commit, they will
+use the key to verify the signature.</p>
+
+<p><img src="/images/sign-commits-with-pgp/verified-commit-github.png" alt="Verified Git Commit" /></p>
+
+<h3 id="generating-your-pgp-key">Generating Your PGP Key</h3>
+
+<p>To get started, lets install the GPG program via your package manager. On macOS we will also need to install a program
+to manage a secure password prompt for the gpg program:</p>
+
+<pre><code># macOS users:
+brew install gpg
+brew install pinentry-mac
+
+# Ubuntu users:
+apt-get install gnupg
+</code></pre>
+
+<p>Check the program installed correctly by running <code>gpg --version</code> in your terminal:</p>
+
+<pre><code>$ gpg --version
+gpg (GnuPG) 2.0.30
+libgcrypt 1.7.6
+Copyright (C) 2015 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+# etc...
+</code></pre>
+
+<p>Now you have GPG installed, we can create our PGP key using the command:</p>
+
+<pre><code>gpg --gen-key
+</code></pre>
+
+<p>You will be greeted with a prompt:</p>
+
+<pre><code>Please select what kind of key you want:
+   (1) RSA and RSA (default)
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+Your selection?
+</code></pre>
+
+<p>Hit enter to select the default of &ldquo;RSA and RSA&rdquo;</p>
+
+<pre><code>What keysize do you want? (2048)
+</code></pre>
+
+<p>We want to select the longest value, so type in &ldquo;4096&rdquo; and hit enter</p>
+
+<pre><code>Please specify how long the key should be valid.
+         0 = key does not expire
+      &lt;n&gt;  = key expires in n days
+      &lt;n&gt;w = key expires in n weeks
+      &lt;n&gt;m = key expires in n months
+      &lt;n&gt;y = key expires in n years
+Key is valid for? (0)
+</code></pre>
+
+<p>Hit enter to select the default of &ldquo;0&rdquo; (key does not expire). This may seem like a bad idea, but in actual fact having
+your key expire does little in and of itself to add security here.</p>
+
+<pre><code>Key does not expire at all
+Is this correct? (y/N) y
+</code></pre>
+
+<p>Type &ldquo;y&rdquo; and hit enter to confirm.</p>
+
+<p>Follow the rest of the on-screen instructions, which require you to enter your name and email address.
+Be sure to leave the comment blank.</p>
+
+<pre><code>GnuPG needs to construct a user ID to identify your key.
+
+Real name: Joe G
+Email address: joe@...
+Comment:
+You selected this USER-ID:
+    &quot;Joe G &lt;joe@...&gt;&quot;
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
+You need a Passphrase to protect your secret key.
+</code></pre>
+
+<p>Type &ldquo;O&rdquo; to accept, and then enter a <strong>secure</strong> passphrase when prompted. In the event of your key being lost, this
+passphrase is the only thing protecting your key from being used.</p>
+
+<p>Now you should be able to list your key by running <code>gpg --list-keys</code></p>
+
+<pre><code>$ gpg --list-keys
+/Users/joegreen/.gnupg/pubring.gpg
+----------------------------------
+pub   4096R/0DA169E9 2017-02-03
+uid       [ultimate] Joe G &lt;joe...&gt;
+sub   4096R/BC6E7C42 2017-02-03
+</code></pre>
+
+<h3 id="using-your-key-with-git">Using Your Key With Git</h3>
+
+<p>Now you have an active PGP key you will be able to use it to sign your commits.</p>
+
+<p>In order to allow us to enter our passphrase on macOS we will need to enable the pinentry program we installed earlier.</p>
+
+<pre><code>echo &quot;pinentry-program /usr/local/bin/pinentry-mac&quot; &gt; ~/.gnupg/gpg-agent.conf
+</code></pre>
+
+<blockquote>
+<p>Provided you have used the same email address in your PGP key identity as you have in your git user config,
+your key will automatically be detected when you perform a git commit.</p>
+</blockquote>
+
+<pre><code>git commit --gpg-sign -m &quot;Commit message here&quot;
+</code></pre>
+
+<p>Alternatively you can enable automatic commit signing by running:</p>
+
+<pre><code>git config --global commit.gpgsign true
+</code></pre>
+
+<h3 id="some-considerations">Some Considerations</h3>
+
+<h5 id="signature-omission">Signature Omission</h5>
+
+<p>Signed commits only provide evidence that a commit with a valid signature was made by you.
+In the case of a commit being made under your name with no signature, your PGP key will go no way at all to proving
+it wasn&rsquo;t you.</p>
+
+<p>For this system of signed commits to work, there must exist a policy to prevent or immediately investigate
+any instance of a commit with a missing or invalid signature. This can even be automated using git commit hooks.</p>
+
+<h5 id="keep-your-private-key-safe">Keep Your Private Key Safe</h5>
+
+<p>PGP signing keys are in fact made up of two parts: a private key allowing you to sign messages and a public key
+allowing others to verify your signature is valid.</p>
+
+<p>As the names suggest, you can (and in fact must) freely distribute your public key, but it is essential that your
+private key is never ever revealed.</p>
+
+<p>The validity of your signatures is only as good as the security of your private key. If your key is compromised, then
+anyone can sign messages on your behalf and what&rsquo;s more, the presence of the signature is strong evidence that it really
+did originate from you!</p>
+
+<p>If you lose your private key, you should revoke it immediately using a revocation key which you must store and
+keep in a safe place. This is beyond the scope of this post, but I intend to cover PGP keys in more detail in
+future posts. In the meantime there plenty of great resources out there already.</p>
+			</div>
+
+			<div>
+				<span class="next-previous">
+				<a href="http://joeg.uk/2017/01/internal-documentation/">&laquo; Internal Documentation</a>
+				</span>
+				<span class="next-previous">
+				&nbsp;
+				</span>
+			</div>
+
+			
+				<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+    (function() {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'joeg-uk';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+			
+		</div>
+		
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-89413599-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+  </body>
+</html>

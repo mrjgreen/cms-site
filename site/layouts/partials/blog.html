@@ -1,19 +1,18 @@
-<div class="bg-off-white pv4">
-	<div class="ph3 mw7 center">
+<div class="posts">
+    {{ range first 4 (where .Data.Pages "Type" "post") }}
+    <div class="post">
+    <h1 class="post-title">
+        <a href="{{ .Permalink }}">
+        {{ .Title }}
+        </a>
+    </h1>
 
-		<h2 class="f2 b lh-title mb3">Latest stories</h1>
+    <span class="post-date">{{ .Date.Format "Mon, Jan 2, 2006" }}</span>
 
-		<div class="w-100 flex-ns mhn1-ns flex-wrap mb3">
-			{{ range first 4 (where .Data.Pages "Type" "post") }}
-				<div class="ph1-ns w-50-ns flex">
-					{{ .Render "li" }}
-				</div>
-			{{ end }}
-		</div>
-
-		<div class="tc">
-			<a href="/post" class="btn raise">Read more</a>
-		</div>
-
-	</div>
+    {{ .Summary }}
+    <div class="read-more-link">
+        <a href="{{ .RelPermalink }}">Read More…</a>
+    </div>
+    </div>
+    {{ end }}
 </div>

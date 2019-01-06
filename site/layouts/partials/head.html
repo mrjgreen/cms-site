@@ -1,43 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"{{with .Site.LanguageCode}} xml:lang="{{.}}" lang="{{.}}"{{end}}>
 <head>
-  <title>{{ .Title }} | Kaldi</title>
-  <link href="/main.css" rel="stylesheet" />
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  {{ .Hugo.Generator }}
 
-  <meta charset="utf-8" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <link
-    href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,700"
-    rel="stylesheet"
-  />
+  {{ if .IsHome }}
+  <title>{{ .Site.Title }}</title>
+  {{ else }}
+  <title>{{ .Title }} &middot; {{ .Site.Title }}</title>
+  {{ end }}
 
-  <!-- Favicons -->
-  <link
-    rel="apple-touch-icon"
-    sizes="180x180"
-    href="/img/apple-touch-icon.png"
-  />
-  <link
-    rel="icon"
-    type="image/png"
-    href="/img/favicon-32x32.png"
-    sizes="32x32"
-  />
-  <link
-    rel="icon"
-    type="image/png"
-    href="/img/favicon-16x16.png"
-    sizes="16x16"
-  />
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#ff4400" />
-  <meta name="theme-color" content="#fff" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/all.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="business.business" />
-  <meta property="og:title" content="Kaldi | Great coffee with a conscience" />
-  <meta property="og:url" content="/" />
-  <meta property="og:image" content="/img/og-image.jpg" />
+  <!-- Icons
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png"> -->
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <!-- RSS -->
+  <link href="{{ .RSSLink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
+
 </head>
